@@ -7,9 +7,9 @@ interface Props extends ButtonProps {
   title: string;
 }
 
-export function CategorySelectButton({ title, ...rest }: Props) {
+export function CategorySelectButton({ title }: Props) {
   return (
-    <Container {...rest}>
+    <Container>
       <Category>{title}</Category>
       <Icon name="chevron-down" />
     </Container>
