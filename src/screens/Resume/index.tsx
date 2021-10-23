@@ -11,6 +11,7 @@ import { useTheme } from 'styled-components'
 import { categories } from '../../utils/categories'
 
 import { HistoryCard } from '../../Components/HistoryCard'
+import { useAuth } from '../../hooks/auth'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -51,6 +52,8 @@ export function Resume() {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([])
 
+  const { user } = useAuth()
+
   const theme = useTheme()
 
   function handleDateChange(action: 'next' | 'prev') {
@@ -63,7 +66,7 @@ export function Resume() {
 
   async function loadData() {
     setIsLoading(true)
-    const dataKey = '@gofinances:transactions'
+    const dataKey = `@gofinances:transactions_use:${user.name}`
     const response = await AsyncStorage.getItem(dataKey)
     const responseFormatted = response ? JSON.parse(response) : []
 

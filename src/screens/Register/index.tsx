@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native'
+import { useAuth } from '../../hooks/auth'
+
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -23,6 +25,7 @@ import {
   TransactionType
 } from './styles'
 
+
 interface FormData {
   name: string;
   amount: string
@@ -42,6 +45,9 @@ const schema = Yup.object().shape({
 export function Register() {
   const [transactionType, setTransactionType] = useState('')
   const [categoryModalOpen, setCategoryModalOpen] = useState(false)
+
+  const { user } = useAuth()
+
   const navigation = useNavigation()
 
   const {
@@ -87,7 +93,7 @@ export function Register() {
     }
 
     try {
-      const dataKey = '@gofinances:transactions'
+      const dataKey = `@gofinances:transactions_use:${user.name}`
       const data = await AsyncStorage.getItem(dataKey)
       const currentData = data ? JSON.parse(data) : []
 
